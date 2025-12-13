@@ -3,7 +3,7 @@ import Tech from "./components/Tech/Tech";
 import Activity from "./components/Activity/Activity";
 import Footer from "./components/shared/Footer";
 
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useShortcut } from "./components/shared/shortcut";
 
@@ -13,26 +13,20 @@ function AnimatedRoutes() {
   const navigate = useNavigate();
 
   useShortcut("ArrowLeft", () => {
-    if (location.pathname === "/Portfolio/") {
-      navigate("/Portfolio/act");
-    } else if (location.pathname === "/Portfolio/act") {
-      navigate("/Portfolio/");
-    }
+    if (location.pathname === "/") navigate("/act");
+    else if (location.pathname === "/act") navigate("/");
   });
 
   useShortcut("ArrowRight", () => {
-    if (location.pathname === "/Portfolio/") {
-      navigate("/Portfolio/act");
-    } else if (location.pathname === "/Portfolio/act") {
-      navigate("/Portfolio/");
-    }
+    if (location.pathname === "/") navigate("/act");
+    else if (location.pathname === "/act") navigate("/");
   });
 
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/Portfolio/" element={<Tech />} />
-        <Route path="/Portfolio/act" element={<Activity />} />
+        <Route path="/" element={<Tech />} />
+        <Route path="/act" element={<Activity />} />
       </Routes>
     </AnimatePresence>
   );
@@ -41,10 +35,10 @@ function AnimatedRoutes() {
 /* App は Router の殻だけ */
 export default function App() {
   return (
-    <BrowserRouter basename="/Portfolio">
+    <HashRouter>
       <Header />
       <AnimatedRoutes />
       <Footer />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
