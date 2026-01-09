@@ -1,8 +1,9 @@
-import Header from "./components/shared/Header";
+
 import Tech from "./components/Tech/Tech";
 import Activity from "./components/Activity/Activity";
-import Footer from "./components/shared/Footer";
 
+import Footer from "./components/shared/Footer";
+import Aboutme from "./components/Aboutme/Aboutme";
 import { HashRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useShortcut } from "./components/shared/shortcut";
@@ -25,24 +26,20 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Tech />} />
+        <Route path="/tech" element={<Tech />} />
         <Route path="/act" element={<Activity />} />
+        <Route path="/" element={<Aboutme />} />
       </Routes>
     </AnimatePresence>
   );
 }
-function HeaderRoutes() {
-  const location = useLocation();
-  return (
-    <Header location={location.pathname} />
-  )
-}
+
 
 /* App は Router の殻だけ */
 export default function App() {
   return (
     <HashRouter>
-      <HeaderRoutes />
+
       <AnimatedRoutes />
       <Footer />
     </HashRouter>

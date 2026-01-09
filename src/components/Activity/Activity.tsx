@@ -2,31 +2,39 @@ import ActMenu from "./ActMenu";
 import Acts from "./Acts";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Main_head from "../shared/Main_head";
+import { useNavigate, useLocation } from "react-router-dom";
+import Header from "../shared/Header";
+import Detail from "../shared/Details";
+import { Content } from "../shared/Contents";
 
 export default function Activity() {
+    const navigate = useNavigate();
+    const location = useLocation();
     const acttype = ["All", "Activity", "Business"];
     const [selected_acttype, setSelected_acttype] = useState(acttype[0]);
     const setActType = (actType: string) => setSelected_acttype(actType);
+    const [detailWork, setDetailWork] = useState<Content | null>(null);
     return (
-        <motion.main className="container" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.5 }} style={{ flex: 1, paddingTop: '4rem', paddingBottom: '4rem' }}>
-            <section id="about" style={{ marginBottom: '6rem', position: 'relative', height: '150px', scrollMarginTop: 'var(--nav-height)' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'var(--bg-color)', zIndex: -1 }}>
-                    <img src="" alt="" />
-                </div>
-                <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: 'var(--text-color)' }}>
-                    Hello, I'm <span style={{ color: 'var(--text-secondary)' }}>a Activist.</span>
-                </h2>
-                <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', maxWidth: '600px' }}>
-                    ここでは私の活動を紹介します。<br />Developerとは異なり、こちらでは主に活動の内容に焦点を当てます。
-                </p>
-            </section>
+        <>
+            <Header location={location.pathname} />
+            <motion.main className="container" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }} transition={{ duration: 0.5 }} style={{ flex: 1, paddingTop: '4rem', paddingBottom: '4rem' }}>
+                <Main_head who="活動" onArrowClick={() => { navigate("/tech") }} description={<p>ここでは私の活動を紹介します。<br />Developerとは異なり、こちらでは主に活動の内容に焦点を当てます。</p>} />
 
-            <section id="acts" style={{ scrollMarginTop: 'var(--nav-height)' }}>
-                <ActMenu acttype={acttype} setActType={setActType} selected_acttype={selected_acttype} />
-                <div style={{ display: 'grid', gap: '2rem' }}>
-                    <Acts acttype={selected_acttype} />
-                </div>
-            </section>
-        </motion.main>
+                <section id="acts" style={{ scrollMarginTop: 'var(--nav-height)' }}>
+                    <ActMenu acttype={acttype} setActType={setActType} selected_acttype={selected_acttype} />
+                    <div style={{ display: 'grid', gap: '2rem' }}>
+                        <Acts acttype={selected_acttype} setDetailWork={setDetailWork} />
+                    </div>
+                </section>
+            </motion.main>
+            {detailWork && (
+                <section className="detail" onClick={() => setDetailWork(null)} style={{ scrollMarginTop: 'var(--nav-height)' }}>
+                    <div onClick={(e) => e.stopPropagation()}>
+                        <Detail work={detailWork} />
+                    </div>
+                </section>
+            )}
+        </>
     )
 }

@@ -1,16 +1,16 @@
-import { contents } from "./Contents";
-export default function Acts({ acttype }: { acttype: string }) {
+import { contents, Content } from "../shared/Contents";
+export default function Acts({ acttype, setDetailWork }: { acttype: string, setDetailWork: (work: Content | null) => void }) {
     let act;
     if (acttype === "All") {
-        act = contents;
+        act = contents.filter((content) => content.location === "Activity");
     } else {
-        act = contents.filter((content) => content.tag.includes(acttype));
+        act = contents.filter((content) => content.tag.includes(acttype) && content.location === "Activity");
     }
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 240px))', gap: '16px' }}>
             {act.map((act) => (
-                <div style={{ border: '1px solid rgba(128,128,128,0.2)', borderRadius: '8px', width: '240px', height: '300px', }}>
+                <div style={{ border: '1px solid rgba(128,128,128,0.2)', borderRadius: '8px', width: '240px', height: '300px', cursor: 'pointer' }} onClick={(e) => { if (e.metaKey || e.ctrlKey) window.open(act.url!, '_blank'); else setDetailWork(act); }}>
                     <div style={{ width: '100%', height: '60%', display: 'flex', justifyContent: 'start', alignItems: 'center', paddingRight: '16px', paddingLeft: '16px', paddingTop: '16px' }}>
                         <img src={act.img || ""} alt={act.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px', filter: `brightness(${act.img_brt})` }} />
                     </div>
