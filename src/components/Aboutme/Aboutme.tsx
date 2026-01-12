@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FadeInFromLeft } from "../shared/components";
 import Theme_ico from "./Theme_ico";
 
 export default function Aboutme() {
     const navigate = useNavigate();
-    const location = useLocation();
     return (
         <>
             <section style={{
