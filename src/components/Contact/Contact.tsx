@@ -60,7 +60,7 @@ export default function Contact() {
                 <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Contact</h1>
                     <p style={{ color: 'var(--text-secondary)' }}>
-                        お仕事のご依頼、ご相談などお気軽にお問い合わせください。
+                        インターンのご相談や、技術・経営に関するカジュアルな面談も大歓迎です。右記のSNSまたはメールより、ぜひご連絡ください。
                     </p>
                 </div>
 

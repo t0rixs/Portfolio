@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Footer() {
+    const navigate = useNavigate();
     return (
         <footer id="contact" style={{
             padding: '2rem 0 2rem',
@@ -17,7 +20,7 @@ export default function Footer() {
                     <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>Contact</h2>
 
                     <div style={{ display: 'flex', gap: '1.5rem' }}>
-                        <a href="mailto:shutamix@gmail.com" target="_blank" style={{ transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'} onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
+                        <a onClick={() => { navigate("/contact") }} target="_blank" style={{ transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'} onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
                             <img src="https://skillicons.dev/icons?i=gmail" alt="Gmail" style={{ width: '40px', height: '40px' }} />
                         </a>
                         <a href="https://www.facebook.com/shutamix" target="_blank" rel="noopener noreferrer" style={{ transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'} onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
