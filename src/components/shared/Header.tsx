@@ -5,6 +5,7 @@ const navItems = [
     { label: "About", path: "/" },
     { label: "Tech", path: "/tech" },
     { label: "Activities", path: "/act" },
+    { label: "Contact", path: "/contact" },
 ];
 export default function Header({ location, style }: { location: string, style?: React.CSSProperties }) {
     const navigate = useNavigate();
@@ -13,15 +14,20 @@ export default function Header({ location, style }: { location: string, style?: 
             height: 'var(--nav-height)',
             display: 'flex',
             alignItems: 'center',
+            backdropFilter: "blur(10px)",
             position: 'sticky',
             top: 0,
-            backgroundColor: 'var(--bg-color)',
+            backgroundColor: 'rgba(0,0,0,0.1)',
             zIndex: 10,
             borderBottom: '1px solid rgba(0,0,0,0.05)',
             ...style
         }}>
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <img src={`${import.meta.env.BASE_URL}/img/logo/MIYANO_WH.svg`} alt="" style={{ height: 'calc(var(--nav-height) /3)', objectFit: 'contain' }} />
+                {location === "/" ? (
+                    <img src={`${import.meta.env.BASE_URL}img/logo/MIYANO_WH.svg`} alt="" style={{ height: 'calc(var(--nav-height) /3)', objectFit: 'contain' }} />
+                ) : (
+                    <div style={{ height: 'calc(var(--nav-height) /3)', objectFit: 'contain' }} />
+                )}
                 <nav style={{ display: 'flex', gap: '1.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                     {navItems.map((item) => {
                         const isActive = location === item.path;

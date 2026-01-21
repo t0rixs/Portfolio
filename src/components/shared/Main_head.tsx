@@ -19,8 +19,8 @@ export default function Main_head({ id, next, onArrowClick, description }: Props
                             {description}
                         </p>
                     </div>
-                    <div
-                        ref={RotateThings({ id })}
+                    <RotateThings
+                        id={id}
                         style={{
                             position: "absolute",
                             top: 0,
@@ -33,9 +33,10 @@ export default function Main_head({ id, next, onArrowClick, description }: Props
                         }}
                     />
 
-                    {onArrowClick && <div className="anim-hover-16" style={{ alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'end', cursor: 'pointer' }} onClick={onArrowClick}>
+                    {onArrowClick && <div className="anim-hover-16 hide-below-528" style={{ zIndex: 1, alignItems: 'center', display: 'flex', flexDirection: 'row', justifyContent: 'end', cursor: 'pointer' }} onClick={onArrowClick}>
                         <p style={{ fontSize: '1.5rem' }} >{next}<span>→</span></p>
                     </div>}
+
                 </div>
             </section>
         </motion.main>

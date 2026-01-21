@@ -11,6 +11,8 @@
     "deploy": "npm run build && echo mappinist.com > dist/CNAME && gh-pages -d dist"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@paper-design/shaders-react": "^0.0.69",
     "framer-motion": "^12.23.26",
     "matter-js": "^0.20.0",
     "react": "^19.2.0",

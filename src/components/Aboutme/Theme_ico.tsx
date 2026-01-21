@@ -29,8 +29,8 @@ export default function Theme_ico({
                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
             }}
         >
-            <div
-                ref={RotateThings({ id })}
+            <RotateThings
+                id={id}
                 style={{
                     position: "absolute",
                     top: 0,
