@@ -83,7 +83,37 @@ export default function Details({ work }: { work: Content }) {
                                 ul: ({ children }) => <ul style={{ paddingLeft: '1.5rem', marginBottom: '1rem' }}>{children}</ul>,
                                 li: ({ children }) => <li style={{ marginBottom: '0.5rem' }}>{children}</li>,
                                 blockquote: ({ children }) => <blockquote style={{ borderLeft: '4px solid #666', paddingLeft: '1rem', color: '#888', fontStyle: 'italic', margin: '1rem 0' }}>{children}</blockquote>,
-                                a: ({ href, children }) => <a href={href} style={{ color: '#646cff', textDecoration: 'underline' }} target="_blank" rel="noopener noreferrer">{children}</a>
+                                a: ({ href, children }) => <a href={href} style={{ color: '#646cff', textDecoration: 'underline' }} target="_blank" rel="noopener noreferrer">{children}</a>,
+                                img: ({ src, alt }) => {
+                                    if (src?.endsWith('.mov') || src?.endsWith('.mp4')) {
+                                        return (
+                                            <video controls width="100%" style={{ borderRadius: '8px', marginTop: '1rem' }}>
+                                                <source src={src} type="video/mp4" />
+                                                {alt}
+                                            </video>
+                                        );
+                                    }
+
+                                    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/;
+                                    const match = src?.match(youtubeRegex);
+                                    if (match) {
+                                        const videoId = match[4];
+                                        return (
+                                            <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: '100%', borderRadius: '8px', marginTop: '1rem', marginBottom: '1rem' }}>
+                                                <iframe
+                                                    src={`https://www.youtube.com/embed/${videoId}`}
+                                                    title={alt || "YouTube video player"}
+                                                    frameBorder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowFullScreen
+                                                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                                                />
+                                            </div>
+                                        );
+                                    }
+
+                                    return <img src={src} alt={alt} style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px' }} />;
+                                }
                             }}
                         >
                             {markdownContent}
