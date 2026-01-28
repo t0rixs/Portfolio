@@ -1,9 +1,15 @@
 import { contents as pressData } from "../shared/press_release";
 import { FadeInFromLeft } from "../shared/components";
+import { contents, Content } from "../shared/Contents";
 
-export default function PressList() {
+
+
+
+export default function PressList({ setDetailWork }: { setDetailWork: (work: Content | null, e?: React.MouseEvent) => void }) {
     // Sort by date descending (newest first)
     const sortedPress = [...pressData].sort((a, b) => b.create_at.getTime() - a.create_at.getTime());
+
+
 
     return (
         <div style={{ padding: '0 1rem', maxWidth: '800px', margin: '0 auto', width: '100%' }}>
@@ -56,17 +62,24 @@ export default function PressList() {
                                 </h4>
 
                                 {item.connection && (
-                                    <span style={{
-                                        display: 'inline-block',
-                                        padding: '0.2rem 0.6rem',
-                                        borderRadius: '4px',
-                                        backgroundColor: 'rgba(255,255,255,0.1)',
-                                        fontSize: '0.8rem',
-                                        width: 'fit-content',
-                                        marginTop: '0.3rem',
-                                        color: 'rgba(255,255,255,0.8)'
-                                    }}>
+                                    <span
+                                        style={{
+                                            display: 'inline-block',
+                                            padding: '0.2rem 0.6rem',
+                                            borderRadius: '4px',
+                                            backgroundColor: 'rgba(255,255,255,0.1)',
+                                            fontSize: '0.8rem',
+                                            width: 'fit-content',
+                                            marginTop: '0.3rem',
+                                            color: 'rgba(255,255,255,0.8)'
+                                        }} onClick={() => {
+                                            const targetWork = contents.find(c => c.title === item.connection)
+                                            if (targetWork) {
+                                                setDetailWork(targetWork)
+                                            }
+                                        }}>
                                         Related: {item.connection}
+
                                     </span>
                                 )}
                             </div>
