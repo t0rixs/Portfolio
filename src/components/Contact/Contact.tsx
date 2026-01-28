@@ -56,7 +56,7 @@ export default function Contact() {
                 }}
             />
 
-            <div className="contact-content" style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto' }}>
+            <div className="contact-content" style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto', color: 'var(--text-primary)' }}>
                 <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
                     <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Contact</h1>
                     <p style={{ color: 'var(--text-secondary)' }}>
