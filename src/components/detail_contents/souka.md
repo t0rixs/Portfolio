@@ -66,4 +66,4 @@
 今回の非可逆的判断は商材選定、可逆的判断は提供量や価格設計です。
 提供量や価格は事前に入念に設計していましたが、結果的にはその場の在庫量や売れ行きなどで判断できるので、十分検討必要なものではあるものの、臨機応変に対応できることがわかりました。
 
-![爽果の雫の様子](https://github.com/t0rixs/Portfolio/public/img/souka_all.jpg)
+![爽果の雫の様子](https://github.com/t0rixs/Portfolio/blob/30fb3f72824e93aa0998e40d5430eddb2d7dc489/public/img/souka_all.jpg)
