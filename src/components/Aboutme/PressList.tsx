@@ -61,7 +61,7 @@ export default function PressList({ setDetailWork }: { setDetailWork: (work: Con
                                     {item.title}
                                 </h4>
 
-                                {item.connection && (
+                                {item.relation_id && (
                                     <span
                                         style={{
                                             display: 'inline-block',
@@ -73,12 +73,12 @@ export default function PressList({ setDetailWork }: { setDetailWork: (work: Con
                                             marginTop: '0.3rem',
                                             color: 'rgba(255,255,255,0.8)'
                                         }} onClick={() => {
-                                            const targetWork = contents.find(c => c.title === item.connection)
+                                            const targetWork = contents.find(c => c.id === item.relation_id)
                                             if (targetWork) {
                                                 setDetailWork(targetWork)
                                             }
                                         }}>
-                                        Related: {item.connection}
+                                        Related: {item.relation_id ? contents.find(c => c.id === item.relation_id)?.title : null}
 
                                     </span>
                                 )}

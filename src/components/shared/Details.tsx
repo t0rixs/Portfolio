@@ -12,7 +12,7 @@ export default function Details({ work }: { work: Content }) {
         const loadMarkdown = async () => {
             // タイトルと一致するファイルパスを構築
             // 例: Title が "Tapaz" なら "../detail_contents/Tapaz.md"
-            const path = `../detail_contents/${work.title}.md`;
+            const path = `../detail_contents/${work.id}.md`;
 
             if (path in markdownFiles) {
                 try {
