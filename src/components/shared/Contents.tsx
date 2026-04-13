@@ -37,4 +37,5 @@ export const contents = [
     new Content("tapaz", "Activity", "Tapaz", "学生の視点を用いて経営者と新しい価値を提案する事業活動", new Date(2024, 11, 11), ["Business"], "Note", "https://note.com/tapaz", `${import.meta.env.BASE_URL}img/tapaz_work.jpg`, 0.6, null),
     new Content("dcon", "Activity", "DCON", "介護業界の業務の質を向上させるサービス提供活動", new Date(2025, 1, 13), ["Activity", "Business"], null, null, `${import.meta.env.BASE_URL}img/dcon_mtg.jpg`, 0.8, null),
     new Content("souka", "Activity", "爽果の雫", "文化祭で行った飲食販売", new Date(2025, 10, 25), ["Activity", "Business"], null, null, `${import.meta.env.BASE_URL}img/souka.jpg`, 0.8, null),
+    new Content("handy", "Activity", "handyインターン", "biz職の遂行/新規事業の提案", new Date(2025, 3, 1), ["Business"], null, null, `${import.meta.env.BASE_URL}img/handy.png`, 1, null),
 ]
