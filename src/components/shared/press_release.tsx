@@ -20,5 +20,6 @@ export const contents = [
     new Press("TwogateDevCamp2025に参加しました", new Date(2025, 9, 14), "pocketreception"),
     new Press("第3回高専起業家サミットで優秀賞を受賞しました", new Date(2026, 2, 24), "dcon"),
     new Press("ハンディ株式会社で1ヶ月間就労型インターンを行いました", new Date(2026, 3, 1), "handy"),
+    new Press("ハンディ株式会社のWantedlyに僕のインタビューが掲載されました", new Date(2026, 4, 14), "handy"),
 
 ]

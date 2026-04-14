@@ -6,7 +6,7 @@
 [https://handy.school/corporate](https://handy.school/corporate)
 
 ## ハンディが掲載する私のインタビュー記事
-(現在準備中)
+[https://www.wantedly.com/companies/company_5984483/post_articles/1054205](https://www.wantedly.com/companies/company_5984483/post_articles/1054205)
 
 ### 概要
 ---
