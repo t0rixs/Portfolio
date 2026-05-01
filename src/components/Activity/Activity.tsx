@@ -1,11 +1,8 @@
 import Acts from "./Acts";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import RotateThings from "../shared/RotateThings";
 
 export default function Activity() {
-    const navigate = useNavigate();
-
     return (
         <motion.main
             initial={{ opacity: 0, x: 50 }}
@@ -15,9 +12,14 @@ export default function Activity() {
             className="container"
             style={{
                 flex: 1,
-                paddingTop: "1.5rem",
-                paddingBottom: "4rem",
+                minHeight: "calc(100vh - var(--nav-height))",
+                paddingTop: "0.5rem",
+                paddingBottom: "0.5rem",
                 position: "relative",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                boxSizing: "border-box",
             }}
         >
             {/* 背景装飾：ページ全体に薄く */}
@@ -35,56 +37,38 @@ export default function Activity() {
                 }}
             />
 
-            {/* 極薄ヘッダー：ブランド + 別ページ導線のみ */}
-            <header
-                style={{
-                    position: "relative",
-                    zIndex: 2,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    paddingBottom: "1.5rem",
-                    borderBottom: "1px solid rgba(255,255,255,0.06)",
-                    marginBottom: "1.5rem",
-                }}
-            >
-                <img
-                    src={`${import.meta.env.BASE_URL}img/logo/MIYANO_Works_WH.svg`}
-                    alt="MIYANO Works"
-                    style={{ height: "calc(var(--nav-height) / 3.5)", objectFit: "contain" }}
-                />
+            {/* メイン：見出し + スロットマシン */}
+            <section style={{ position: "relative", zIndex: 1 }}>
                 <div
-                    className="anim-hover-16 hide-below-528"
-                    style={{
-                        cursor: "pointer",
-                        fontSize: "0.95rem",
-                        color: "var(--text-secondary)",
-                        letterSpacing: "0.08em",
-                    }}
-                    onClick={() => navigate("/tech")}
-                >
-                    開発頁 <span>→</span>
-                </div>
-            </header>
-
-            {/* メイン：スロットマシンが主役 */}
-            <section style={{ position: "relative", zIndex: 1, scrollMarginTop: "var(--nav-height)" }}>
-                <Acts />
-
-                {/* スロット直下の控えめキャプション */}
-                <p
                     style={{
                         textAlign: "center",
-                        marginTop: "1.6rem",
-                        fontSize: "0.85rem",
-                        color: "var(--text-secondary)",
-                        opacity: 0.75,
-                        letterSpacing: "0.05em",
-                        lineHeight: 1.7,
+                        marginBottom: "0.4rem",
+                        padding: "0 1rem",
                     }}
                 >
-                    私が取り組んだ活動を紹介します ─ スクロール／矢印で切替
-                </p>
+                    <h1
+                        style={{
+                            margin: 0,
+                            fontSize: "clamp(1.4rem, 2.4vw, 1.9rem)",
+                            fontWeight: 700,
+                            letterSpacing: "0.04em",
+                            color: "#fff",
+                        }}
+                    >
+                        Activities
+                    </h1>
+                    <p
+                        style={{
+                            margin: "0.3rem 0 0",
+                            fontSize: "0.85rem",
+                            color: "var(--text-secondary)",
+                            letterSpacing: "0.05em",
+                        }}
+                    >
+                        私が学外で取り組んできた活動 ─ 矢印 / スワイプ / インジケータで切替、カードクリックで詳細へ
+                    </p>
+                </div>
+                <Acts />
             </section>
         </motion.main>
     );

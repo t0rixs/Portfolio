@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { contents, Content } from "../shared/Contents";
 
@@ -19,16 +19,16 @@ const showcaseDef: ShowcaseItem[] = [
         description: "学生視点を企業に売る ─ 2年・代表・受注11件・累計60万円。",
     },
     {
-        id: "dcon",
-        eyebrow: "02 / Activity",
-        label: "DCON",
-        description: "介護現場の業務を、ディープラーニングで変える挑戦。",
-    },
-    {
         id: "handy",
-        eyebrow: "03 / Business",
+        eyebrow: "02 / Business",
         label: "handy インターン",
         description: "急成長スタートアップで biz職遂行 / 新規事業の提案。",
+    },
+    {
+        id: "dcon",
+        eyebrow: "03 / Activity",
+        label: "DCON",
+        description: "介護現場の業務を、ディープラーニングで変える挑戦。",
     },
     {
         id: "souka",
@@ -39,31 +39,86 @@ const showcaseDef: ShowcaseItem[] = [
     },
 ];
 
+const STORAGE_KEY = "acts.activeIdx";
+
 export default function Acts() {
     const navigate = useNavigate();
     const scrollerRef = useRef<HTMLDivElement | null>(null);
-    const [activeIdx, setActiveIdx] = useState(0);
+    const [activeIdx, setActiveIdx] = useState<number>(() => {
+        const saved = sessionStorage.getItem(STORAGE_KEY);
+        const n = saved ? parseInt(saved, 10) : 0;
+        return Number.isFinite(n) ? n : 0;
+    });
 
     const items = showcaseDef
         .map((s) => ({ def: s, content: contents.find((c) => c.id === s.id) }))
         .filter((x): x is { def: ShowcaseItem; content: Content } => Boolean(x.content));
 
-    useEffect(() => {
+    const realCount = items.length;
+    // ループ用に [最後のクローン, ...items, 最初のクローン] という並びでレンダリング
+    const rendered = realCount > 0
+        ? [
+            { ...items[realCount - 1], _clone: "tail" as const },
+            ...items.map((it) => ({ ...it, _clone: null as null })),
+            { ...items[0], _clone: "head" as const },
+        ]
+        : [];
+
+    // 初期表示位置を activeIdx に合わせる（保存済みなら復元）
+    useLayoutEffect(() => {
         const el = scrollerRef.current;
-        if (!el) return;
-        const handler = () => {
-            const { scrollLeft, clientWidth } = el;
-            const idx = Math.round(scrollLeft / clientWidth);
-            setActiveIdx(idx);
-        };
-        el.addEventListener("scroll", handler, { passive: true });
-        return () => el.removeEventListener("scroll", handler);
+        if (!el || realCount === 0) return;
+        // rendered における実体 idx の物理位置は (idx + 1)
+        el.scrollTo({ left: (activeIdx + 1) * el.clientWidth, behavior: "auto" });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const scrollToIdx = (idx: number) => {
+    useEffect(() => {
+        const el = scrollerRef.current;
+        if (!el || realCount === 0) return;
+
+        let snapTimer: number | undefined;
+        const handler = () => {
+            const { scrollLeft, clientWidth } = el;
+            if (clientWidth === 0) return;
+            const physical = Math.round(scrollLeft / clientWidth);
+
+            // physical: 0 → 末尾クローン / realCount+1 → 先頭クローン
+            // 実際の idx を計算
+            let real: number;
+            if (physical === 0) real = realCount - 1;
+            else if (physical === realCount + 1) real = 0;
+            else real = physical - 1;
+
+            setActiveIdx(real);
+
+            // クローン位置に到達したらスクロール位置をシームレスに本体側へ補正
+            if (snapTimer) window.clearTimeout(snapTimer);
+            snapTimer = window.setTimeout(() => {
+                if (physical === 0) {
+                    el.scrollTo({ left: realCount * clientWidth, behavior: "auto" });
+                } else if (physical === realCount + 1) {
+                    el.scrollTo({ left: 1 * clientWidth, behavior: "auto" });
+                }
+            }, 80);
+        };
+        el.addEventListener("scroll", handler, { passive: true });
+        return () => {
+            el.removeEventListener("scroll", handler);
+            if (snapTimer) window.clearTimeout(snapTimer);
+        };
+    }, [realCount]);
+
+    // activeIdx を sessionStorage に保存（戻ってきた時に同じ位置で復元）
+    useEffect(() => {
+        sessionStorage.setItem(STORAGE_KEY, String(activeIdx));
+    }, [activeIdx]);
+
+    const goToReal = (real: number, smooth = true) => {
         const el = scrollerRef.current;
         if (!el) return;
-        el.scrollTo({ left: idx * el.clientWidth, behavior: "smooth" });
+        const wrapped = ((real % realCount) + realCount) % realCount;
+        el.scrollTo({ left: (wrapped + 1) * el.clientWidth, behavior: smooth ? "smooth" : "auto" });
     };
 
     return (
@@ -73,11 +128,11 @@ export default function Acts() {
                 marginLeft: "calc(50% - 50vw)",
                 marginRight: "calc(50% - 50vw)",
                 width: "100vw",
-                paddingTop: "2rem",
-                paddingBottom: "2rem",
+                paddingTop: "0.5rem",
+                paddingBottom: "0.5rem",
             }}
         >
-            {/* スロットマシン風 横スクロール本体 */}
+            {/* スロットマシン風 横スクロール本体（先頭/末尾にクローンを配置してループ） */}
             <div
                 ref={scrollerRef}
                 className="acts-slot"
@@ -96,26 +151,36 @@ export default function Acts() {
                 <style>{`
                     .acts-slot::-webkit-scrollbar { display: none; }
                 `}</style>
-                {items.map(({ def, content }, idx) => {
-                    const distance = Math.abs(idx - activeIdx);
-                    const isActive = distance === 0;
-                    const opacity = isActive ? 1 : Math.max(0.3, 1 - distance * 0.4);
+                {rendered.map((entry, physicalIdx) => {
+                    const { def, content } = entry;
+                    // 物理位置 → 実 idx
+                    let realIdx: number;
+                    if (physicalIdx === 0) realIdx = realCount - 1;
+                    else if (physicalIdx === realCount + 1) realIdx = 0;
+                    else realIdx = physicalIdx - 1;
+
+                    const isClone = entry._clone !== null;
+                    const distance = Math.abs(realIdx - activeIdx);
+                    const isActive = distance === 0 && !isClone;
+                    const opacity = isActive ? 1 : Math.max(0.3, 1 - Math.min(distance, 2) * 0.4);
                     const scale = isActive ? 1 : 0.9;
                     return (
                         <div
-                            key={def.id}
+                            key={`${def.id}-${physicalIdx}`}
                             style={{
                                 flex: "0 0 100%",
                                 scrollSnapAlign: "center",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
-                                padding: "1.5rem max(1.5rem, 4vw)",
+                                padding: "0.5rem max(1.5rem, 4vw)",
                                 boxSizing: "border-box",
                             }}
                         >
                             <div
                                 onClick={(e) => {
+                                    // クリック時に現在位置を保存
+                                    sessionStorage.setItem(STORAGE_KEY, String(realIdx));
                                     if ((e.metaKey || e.ctrlKey) && content.url) {
                                         window.open(content.url, "_blank");
                                     } else if (def.href) {
@@ -128,7 +193,7 @@ export default function Acts() {
                                     position: "relative",
                                     width: "min(1100px, 92vw)",
                                     aspectRatio: "16 / 7",
-                                    maxHeight: "60vh",
+                                    maxHeight: "calc(100vh - var(--nav-height) - 6rem)",
                                     borderRadius: 18,
                                     overflow: "hidden",
                                     cursor: "pointer",
@@ -155,7 +220,7 @@ export default function Acts() {
                                         height: "100%",
                                         objectFit: "cover",
                                         objectPosition: content.img_pos || "center",
-                                        filter: `brightness(${(content.img_brt ?? 1) * 0.55})`,
+                                        filter: `brightness(${(content.img_brt ?? 1) * 0.85})`,
                                     }}
                                 />
                                 <div
@@ -163,7 +228,7 @@ export default function Acts() {
                                         position: "absolute",
                                         inset: 0,
                                         background:
-                                            "linear-gradient(100deg, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.6) 100%)",
+                                            "linear-gradient(100deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.4) 100%)",
                                     }}
                                 />
                                 <div
@@ -234,11 +299,10 @@ export default function Acts() {
                 })}
             </div>
 
-            {/* インジケータ + 矢印 */}
+            {/* インジケータ + 矢印（左右ループ可） */}
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "1.2rem", marginTop: "1.2rem" }}>
                 <button
-                    onClick={() => scrollToIdx(Math.max(0, activeIdx - 1))}
-                    disabled={activeIdx === 0}
+                    onClick={() => goToReal(activeIdx - 1)}
                     aria-label="前へ"
                     style={{
                         background: "transparent",
@@ -247,8 +311,7 @@ export default function Acts() {
                         width: 36,
                         height: 36,
                         borderRadius: "50%",
-                        cursor: activeIdx === 0 ? "default" : "pointer",
-                        opacity: activeIdx === 0 ? 0.3 : 1,
+                        cursor: "pointer",
                     }}
                 >
                     ←
@@ -257,7 +320,7 @@ export default function Acts() {
                     {items.map((_, idx) => (
                         <button
                             key={idx}
-                            onClick={() => scrollToIdx(idx)}
+                            onClick={() => goToReal(idx)}
                             aria-label={`item ${idx + 1}`}
                             style={{
                                 width: idx === activeIdx ? 28 : 10,
@@ -273,8 +336,7 @@ export default function Acts() {
                     ))}
                 </div>
                 <button
-                    onClick={() => scrollToIdx(Math.min(items.length - 1, activeIdx + 1))}
-                    disabled={activeIdx === items.length - 1}
+                    onClick={() => goToReal(activeIdx + 1)}
                     aria-label="次へ"
                     style={{
                         background: "transparent",
@@ -283,8 +345,7 @@ export default function Acts() {
                         width: 36,
                         height: 36,
                         borderRadius: "50%",
-                        cursor: activeIdx === items.length - 1 ? "default" : "pointer",
-                        opacity: activeIdx === items.length - 1 ? 0.3 : 1,
+                        cursor: "pointer",
                     }}
                 >
                     →

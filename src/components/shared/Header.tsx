@@ -24,7 +24,7 @@ export default function Header({ location, style }: { location: string, style?: 
         }}>
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div onClick={() => navigate("/")} style={{ cursor: 'pointer' }}>
-                    {location === "/" ? (
+                    {location === "/" || location === "/act" ? (
                         <img src={`${import.meta.env.BASE_URL}img/logo/MIYANO_WH.svg`} alt="" style={{ height: 'calc(var(--nav-height) /3)', objectFit: 'contain' }} />
                     ) : (
                         <img src={`${import.meta.env.BASE_URL}img/logo/MIYANO_WH.svg`} alt="" className="show-below-528" style={{ height: 'calc(var(--nav-height) /3)', objectFit: 'contain' }} />
