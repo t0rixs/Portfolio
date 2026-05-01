@@ -1,11 +1,13 @@
 import { contents as pressData } from "../shared/press_release";
 import { FadeInFromLeft } from "../shared/components";
-import { contents, Content } from "../shared/Contents";
+import { contents } from "../shared/Contents";
+import { useNavigate } from "react-router-dom";
 
 
 
 
-export default function PressList({ setDetailWork }: { setDetailWork: (work: Content | null, e?: React.MouseEvent) => void }) {
+export default function PressList() {
+    const navigate = useNavigate();
     // Sort by date descending (newest first)
     const sortedPress = [...pressData].sort((a, b) => b.create_at.getTime() - a.create_at.getTime());
 
@@ -75,7 +77,7 @@ export default function PressList({ setDetailWork }: { setDetailWork: (work: Con
                                         }} onClick={() => {
                                             const targetWork = contents.find(c => c.id === item.relation_id)
                                             if (targetWork) {
-                                                setDetailWork(targetWork)
+                                                navigate(`/works/${targetWork.id}`)
                                             }
                                         }}>
                                         Related: {item.relation_id ? contents.find(c => c.id === item.relation_id)?.title : null}

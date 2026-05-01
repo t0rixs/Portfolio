@@ -1,7 +1,9 @@
-import { contents, Content } from "../shared/Contents";
+import { contents } from "../shared/Contents";
 import { FadeInFromRight } from "../shared/components";
+import { useNavigate } from "react-router-dom";
 
-export default function Works({ worktype, setDetailWork }: { worktype: string, setDetailWork: (work: Content | null) => void }) {
+export default function Works({ worktype }: { worktype: string }) {
+    const navigate = useNavigate();
     let works;
     if (worktype === "All") {
         works = contents.filter((content) => content.location === "Tech");
@@ -12,8 +14,8 @@ export default function Works({ worktype, setDetailWork }: { worktype: string, s
 
     return (
         works.map((work) => (
-            <FadeInFromRight>
-                <div style={{ position: 'relative', height: '150px', backdropFilter: "blur(10px)" }} onClick={(e) => { if (e.metaKey || e.ctrlKey) window.open(work.url!, '_blank'); else setDetailWork(work); }}>
+            <FadeInFromRight key={work.id}>
+                <div style={{ position: 'relative', height: '150px', backdropFilter: "blur(10px)", cursor: 'pointer' }} onClick={(e) => { if ((e.metaKey || e.ctrlKey) && work.url) window.open(work.url, '_blank'); else navigate(`/works/${work.id}`); }}>
                     <div style={{ position: 'relative', paddingLeft: '2rem', paddingBottom: '1rem', border: '1px solid rgba(128,128,128,0.2)', borderRadius: '8px', zIndex: 2, height: '150px' }}>
 
                         <h4 style={{ marginBottom: '0.5rem', fontSize: '1.6rem' }}>{work.title}</h4>

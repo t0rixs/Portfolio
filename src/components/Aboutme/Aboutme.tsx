@@ -3,13 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { FadeInFromLeft } from "../shared/components";
 import Theme_ico from "./Theme_ico";
 import PressList from "./PressList";
-import { useState } from "react";
-import { Content } from "../shared/Contents";
-import Detail from "../shared/Details";
 
 export default function Aboutme() {
     const navigate = useNavigate();
-    const [detailWork, setDetailWork] = useState<Content | null>(null);
     return (
         <>
             <section style={{
@@ -135,21 +131,12 @@ export default function Aboutme() {
                                 <span style={{ borderBottom: '1px solid #fff', paddingBottom: '0.5rem' }}>HISTORY</span>
                             </h2>
                         </FadeInFromLeft>
-                        <PressList setDetailWork={setDetailWork} />
+                        <PressList />
 
                     </div>
 
                 </section>
             </main>
-            {
-                detailWork && (
-                    <section className="detail" onClick={() => setDetailWork(null)} style={{ scrollMarginTop: 'var(--nav-height)' }}>
-                        <div onClick={(e) => e.stopPropagation()}>
-                            <Detail work={detailWork} />
-                        </div>
-                    </section>
-                )
-            }
         </>
     )
 }

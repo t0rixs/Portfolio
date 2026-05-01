@@ -1,9 +1,7 @@
 import WorkMenu from "./WorkMenu";
 import Works from "./Works";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Content } from "../shared/Contents";
-import Detail from "../shared/Details";
 import { useNavigate } from "react-router-dom";
 import RotateThings from "../shared/RotateThings";
 
@@ -12,15 +10,6 @@ export default function Tech() {
     const navigate = useNavigate();
     const worktype = ["All", "Web", "Native", "Others"];
     const [selected_worktype, setWorksType] = useState(worktype[0]);
-    const [detailWork, setDetailWork] = useState<Content | null>(null);
-
-    useEffect(() => {
-        if (detailWork) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-    }, [detailWork]);
 
     return (
         <>
@@ -72,19 +61,10 @@ export default function Tech() {
                 <section id="works" style={{ scrollMarginTop: 'var(--nav-height)' }}>
                     <WorkMenu worktype={worktype} setWorksType={setWorksType} selected_worktype={selected_worktype} />
                     <div style={{ display: 'grid', gap: '2rem' }}>
-                        <Works worktype={selected_worktype} setDetailWork={setDetailWork} />
+                        <Works worktype={selected_worktype} />
                     </div>
                 </section>
             </motion.main >
-            {
-                detailWork && (
-                    <section className="detail" onClick={() => setDetailWork(null)} style={{ scrollMarginTop: 'var(--nav-height)' }}>
-                        <div onClick={(e) => e.stopPropagation()}>
-                            <Detail work={detailWork} />
-                        </div>
-                    </section>
-                )
-            }
         </>
     )
 }

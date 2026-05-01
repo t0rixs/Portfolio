@@ -40,7 +40,7 @@ export default function Contact() {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5 }}
             className="container contact-page"
-            style={{ flex: 1, paddingTop: 'calc(var(--nav-height) + 2rem)', paddingBottom: '4rem', minHeight: '100vh', position: 'relative' }}
+            style={{ flex: 1, paddingTop: 'calc(var(--nav-height) + 0.8rem)', paddingBottom: '1rem', height: '100vh', position: 'relative', boxSizing: 'border-box', overflow: 'hidden' }}
         >
             <RotateThings
                 id="contact-bg"
@@ -57,14 +57,14 @@ export default function Contact() {
             />
 
             <div className="contact-content" style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto', color: 'var(--text-primary)' }}>
-                <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Contact</h1>
-                    <p style={{ color: 'var(--text-secondary)' }}>
+                <div style={{ marginBottom: '1.2rem', textAlign: 'center' }}>
+                    <h1 style={{ fontSize: '2rem', marginBottom: '0.4rem' }}>Contact</h1>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6, margin: 0 }}>
                         インターンのご相談や、技術・経営に関するカジュアルな面談も大歓迎です。<br />下記のSNSまたはメールより、ぜひご連絡ください。
                     </p>
                 </div>
 
-                <form ref={form} onSubmit={sendEmail} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <form ref={form} onSubmit={sendEmail} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     <div className="form-group">
                         <label className="form-label" htmlFor="user_name">Name</label>
                         <input id="user_name" type="text" name="user_name" required className="form-input" placeholder="山田 太郎" />
@@ -87,7 +87,7 @@ export default function Contact() {
 
                     <div className="form-group">
                         <label className="form-label" htmlFor="message">Message</label>
-                        <textarea id="message" name="message" required className="form-textarea" rows={6} placeholder="お問い合わせ内容"></textarea>
+                        <textarea id="message" name="message" required className="form-textarea" rows={3} placeholder="お問い合わせ内容"></textarea>
                     </div>
 
                     <button type="submit" className="submit-btn" disabled={status === 'sending' || status === 'success'}>

@@ -9,6 +9,8 @@ import Header from "./components/shared/Header";
 import Background from "./components/shared/Background";
 import ScrollTo from "./components/shared/ScrollTo";
 import Contact from "./components/Contact/Contact";
+import DetailPage from "./components/shared/DetailPage";
+import OthersPage from "./components/shared/OthersPage";
 
 /* ここが Router 内で動く本体 */
 function AnimatedRoutes() {
@@ -41,6 +43,8 @@ function AnimatedRoutes() {
             <Route path="/act" element={<Activity />} />
             <Route path="/" element={<Aboutme />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/works/:id" element={<DetailPage />} />
+            <Route path="/activity/others" element={<OthersPage />} />
           </Routes>
         </AnimatePresence>
       </div>
