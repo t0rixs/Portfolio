@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FadeInFromLeft } from "../shared/components";
 import Theme_ico from "./Theme_ico";
 import PressList from "./PressList";
+import Featured from "../shared/Featured";
 
 export default function Aboutme() {
     const navigate = useNavigate();
@@ -112,6 +113,7 @@ export default function Aboutme() {
                         </FadeInFromLeft>
                     </motion.div>
 
+                    <Featured />
                     <div className="themes">
                         <FadeInFromLeft>
                             <h2 style={{ fontSize: '3rem', marginBottom: '3rem', fontWeight: '200', letterSpacing: '0.1em' }}>
@@ -119,7 +121,7 @@ export default function Aboutme() {
                             </h2>
                         </FadeInFromLeft>
                         <FadeInFromLeft>
-                            <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                                 <Theme_ico id="tech" title="Tech" description="技術" onClick={() => { navigate('/tech') }} />
                                 <Theme_ico id="act" title="Activity" description="活動" onClick={() => { navigate('/act') }} />
                             </div>

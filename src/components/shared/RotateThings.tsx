@@ -134,5 +134,5 @@ export default function RotateThings({ id, style, className }: Props) {
         };
     }, [id]);
 
-    return <div ref={containerRef} style={style} className={className} />;
+    return <div ref={containerRef} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', ...style }} className={className} />;
 }

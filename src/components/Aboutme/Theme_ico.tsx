@@ -15,7 +15,7 @@ export default function Theme_ico({
         <div onClick={onClick}
             style={{
                 position: "relative",
-                width: "400px",
+                width: "100%",
                 height: "250px", // Adjusted height for a card look
                 borderRadius: "16px",
                 overflow: "hidden",
