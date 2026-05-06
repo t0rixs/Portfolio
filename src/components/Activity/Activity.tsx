@@ -65,7 +65,7 @@ export default function Activity() {
                             letterSpacing: "0.05em",
                         }}
                     >
-                        私が学外で取り組んできた活動 ─ 矢印 / スワイプ / インジケータで切替、カードクリックで詳細へ
+                        私が学外で取り組んできた活動
                     </p>
                 </div>
                 <Acts />
