@@ -4,11 +4,11 @@ import { FadeInFromLeft } from "./components";
 
 const FEATURED_IDS = ["routepia", "tapaz", "handy"];
 
-// id ごとにカードへ追加表示する情報（リリース告知や補足説明）
-const FEATURED_OVERRIDES: Record<string, { badge?: string; extra?: string }> = {
+// id ごとにカード本文をオーバーライド（タイトル右の小さな注記、説明文の差し替え）
+const FEATURED_OVERRIDES: Record<string, { note?: string; description?: string }> = {
     routepia: {
-        badge: "近日リリース予定",
-        extra: "App Store / Google Play への公開準備中。人生の足跡を地図に刻む新しい記録体験を、もうすぐ世に出します。",
+        note: "Coming Soon",
+        description: "人生を一枚の地図に。PlayStoreにて近日リリース",
     },
 };
 
@@ -34,16 +34,11 @@ export default function Featured() {
                     display: grid;
                     grid-template-columns: repeat(3, 1fr);
                     gap: 1.5rem;
-                    align-items: stretch;
                 }
                 @media (max-width: 768px) {
                     .featured-grid {
                         grid-template-columns: 1fr;
                     }
-                }
-                @keyframes featured-pulse {
-                    0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(255,107,107,0.4); }
-                    50% { transform: scale(1.05); box-shadow: 0 4px 16px rgba(255,107,107,0.6); }
                 }
             `}</style>
             <FadeInFromLeft>
@@ -69,7 +64,7 @@ export default function Featured() {
                                 onClick={() => navigate(`/works/${work.id}`)}
                                 style={{
                                     position: 'relative',
-                                    height: '320px',
+                                    height: '260px',
                                     borderRadius: '12px',
                                     overflow: 'hidden',
                                     cursor: 'pointer',
@@ -125,27 +120,6 @@ export default function Featured() {
                                 >
                                     {tagLabel(work.location)}
                                 </div>
-                                {override.badge && (
-                                    <div
-                                        style={{
-                                            position: 'absolute',
-                                            top: '1rem',
-                                            right: '1rem',
-                                            zIndex: 2,
-                                            padding: '0.3rem 0.7rem',
-                                            borderRadius: '999px',
-                                            fontSize: '0.7rem',
-                                            fontWeight: 600,
-                                            letterSpacing: '0.05em',
-                                            background: 'linear-gradient(135deg, #ff6b6b, #ffa94d)',
-                                            color: '#fff',
-                                            boxShadow: '0 2px 8px rgba(255,107,107,0.4)',
-                                            animation: 'featured-pulse 2s ease-in-out infinite',
-                                        }}
-                                    >
-                                        {override.badge}
-                                    </div>
-                                )}
                                 <div
                                     style={{
                                         position: 'absolute',
@@ -156,13 +130,17 @@ export default function Featured() {
                                         zIndex: 2,
                                     }}
                                 >
-                                    <h4 style={{ margin: 0, marginBottom: '0.4rem', fontSize: '1.5rem' }}>{work.title}</h4>
-                                    <p style={{ margin: 0, fontSize: '0.9rem', opacity: 0.85 }}>{work.description}</p>
-                                    {override.extra && (
-                                        <p style={{ margin: '0.5rem 0 0', fontSize: '0.8rem', opacity: 0.75, lineHeight: 1.5 }}>
-                                            {override.extra}
-                                        </p>
-                                    )}
+                                    <h4 style={{ margin: 0, marginBottom: '0.4rem', fontSize: '1.5rem', display: 'flex', alignItems: 'baseline', gap: '0.6rem' }}>
+                                        <span>{work.title}</span>
+                                        {override.note && (
+                                            <span style={{ fontSize: '0.7rem', fontWeight: 400, opacity: 0.7, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                                                {override.note}
+                                            </span>
+                                        )}
+                                    </h4>
+                                    <p style={{ margin: 0, fontSize: '0.9rem', opacity: 0.85 }}>
+                                        {override.description ?? work.description}
+                                    </p>
                                 </div>
                             </div>
                         );
