@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { contents } from "./Contents";
 import { FadeInFromLeft } from "./components";
 
-const FEATURED_IDS = ["routepia", "tapaz", "handy"];
+const FEATURED_IDS = ["routepia", "tapaz", "dcon"];
 
 // id ごとにカード本文をオーバーライド（タイトル右の小さな注記、説明文の差し替え）
 const FEATURED_OVERRIDES: Record<string, { note?: string; description?: string }> = {
