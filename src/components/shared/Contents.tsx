@@ -39,6 +39,7 @@ export const contents = [
     new Content("tapaz_sharehouse", "Activity", "国際交流シェアハウスWS（美馬さん）", "デイサービス跡地転用構想の需要検証ワークショップ", new Date(2024, 11, 11), ["Business", "Tapaz"], null, null, `${import.meta.env.BASE_URL}img/tapaz_work.jpg`, 0.6, null),
     new Content("tapaz_sudachi", "Activity", "Green Social Tourism WS（神山）", "ツアー体験の自分ごと化を狙う関係人口創出WS", new Date(2024, 11, 11), ["Business", "Tapaz"], null, null, `${import.meta.env.BASE_URL}img/tapaz_work.jpg`, 0.6, null),
     new Content("dcon", "Activity", "DCON", "介護業界の業務の質を向上させるサービス提供活動", new Date(2025, 1, 13), ["Activity", "Business"], null, null, `${import.meta.env.BASE_URL}img/dcon_mtg.jpg`, 0.8, null),
+    new Content("dcon_kigyouka", "Activity", "高専起業家サミット（DCON中間アウトプット）", "第3回高専起業家サミット アイデア部門 優秀賞受賞", new Date(2026, 1, 24), ["Activity", "Business", "DCON"], null, null, `${import.meta.env.BASE_URL}img/dcon_mtg.jpg`, 0.6, null),
     new Content("souka", "Activity", "爽果の雫", "文化祭で行った飲食販売", new Date(2025, 10, 25), ["Activity", "Business"], null, null, `${import.meta.env.BASE_URL}img/souka.jpg`, 0.8, null),
     new Content("handy", "Activity", "handyインターン", "biz職の遂行/新規事業の提案", new Date(2025, 3, 1), ["Business"], null, null, `${import.meta.env.BASE_URL}img/handy_me.png`, 1, null),
     new Content("senmyaku", "Tech", "SENMYAKU", "「またあったね」をもっと気軽に", new Date(2025, 3, 1), ["Web"], "GitHub", "https://github.com/tarabakz25/kaikosen", `${import.meta.env.BASE_URL}img/senmyaku.png`, 0.6, "center"),

@@ -9,6 +9,7 @@ const MAIN_ACTIVITY_IDS = new Set([
     "tapaz_sharehouse",
     "tapaz_sudachi",
     "dcon",
+    "dcon_kigyouka",
     "handy",
 ]);
 
