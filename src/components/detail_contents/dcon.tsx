@@ -74,14 +74,14 @@ function Callout({
 }) {
     const color =
         tone === "warn" ? "#ffb347" :
-        tone === "good" ? "#7adf94" :
-        tone === "regret" ? "#ff7a90" :
-        "#9cf";
+            tone === "good" ? "#7adf94" :
+                tone === "regret" ? "#ff7a90" :
+                    "#9cf";
     const bg =
         tone === "warn" ? "rgba(255,179,71,0.07)" :
-        tone === "good" ? "rgba(122,223,148,0.07)" :
-        tone === "regret" ? "rgba(255,122,144,0.07)" :
-        "rgba(156,207,255,0.07)";
+            tone === "good" ? "rgba(122,223,148,0.07)" :
+                tone === "regret" ? "rgba(255,122,144,0.07)" :
+                    "rgba(156,207,255,0.07)";
     return (
         <div
             style={{
@@ -579,7 +579,7 @@ export default function DconDetail({ work: _work }: { work: Content }) {
                 </h4>
                 <p style={{ marginTop: 0 }}>
                     最終的に、<strong>「既存業務の効率化」を1軸の幹に据え、
-                    スポットワーク対応はデバイスの未来像として後半に見せる</strong>構成で着地。
+                        スポットワーク対応はデバイスの未来像として後半に見せる</strong>構成で着地。
                     プレゼン本番のスライドはこの形になっている。
                 </p>
             </Section>
@@ -599,7 +599,7 @@ export default function DconDetail({ work: _work }: { work: Content }) {
                 </p>
                 <p>
                     今思えば、<strong>機能の数を削り、
-                    介護の「みる」一点に焦点を絞って差別化を立てるべきだった</strong>。
+                        介護の「みる」一点に焦点を絞って差別化を立てるべきだった</strong>。
                     機能をシンプルに語ること自体は徹底できたが、
                     <strong>「どの軸で差別化するか」の選び方</strong>がまだ甘かった、
                     というのが結果発表後に得た最大の学び。
